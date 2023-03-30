@@ -939,7 +939,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /students/{student_id}/exam:
+  /students/{student_id}/grades:
     get:
       tags:
         - Teaching
@@ -959,7 +959,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Grade'
+                  $ref: '#/components/schemas/StudentGrade'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -1317,6 +1317,32 @@ components:
           type: string
         exam_id:
           type: string
+    StudentGrade:
+      type: object
+      properties:
+        id:
+          type: string
+        exam_id:
+          type: string
+        examination_date:
+          type: string
+          format: date-time
+        course_id:
+          type: string
+        course_code:
+          type: string
+        point:
+          type: integer
+        created_datetime:
+          type: string
+          format: date-time
+        student_id:
+          type: string
+        student_lastname:
+          type: string
+        student_firstname:
+          type: string
+          
     ExamTemplate:
       type: object
       properties:
