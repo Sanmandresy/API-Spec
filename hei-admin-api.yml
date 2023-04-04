@@ -260,6 +260,45 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /students/courses/{course_id}:
+    get:
+      tags:
+        - Teaching
+      summary: Get all students linked to a specific course
+      operationId: getStudentsByCourseId
+      parameters:
+        - name: page
+          in: query
+          schema:
+            $ref: '#/components/schemas/Page'
+        - name: page_size
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageSize'
+        - name: course_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of students following the course.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /students:
     get:
       tags:
@@ -919,7 +958,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/CrupdateExam'
+                $ref: '#/components/schemas/Exam'
       responses:
         '200':
           description: The created or updated exams
@@ -990,7 +1029,7 @@ paths:
       operationId: getGradeById
       responses:
         '200':
-          description: return a grade during a specified exam
+          description: return a grade during a specific exam
           content:
             application/json:
               schema:
@@ -1027,7 +1066,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CrupdateGrade'
+              $ref: '#/components/schemas/Grade'
       responses:
         '200':
           description: The created or updated Grade
@@ -1289,7 +1328,7 @@ components:
       properties:
         main_teacher:
           $ref: '#/components/schemas/Teacher'
-    GradeTemplate:
+    Grade:
       type: object
       properties:
         id:
@@ -1299,20 +1338,6 @@ components:
         created_at:
           type: string
           format: date-time
-    Grade:
-      allOf:
-        - $ref: '#/components/schemas/GradeTemplate'
-      type: object
-      properties:
-        student:
-          $ref: '#/components/schemas/Student'
-        exam:
-          $ref: '#/components/schemas/Exam'
-    CrupdateGrade:
-      allOf:
-        - $ref: '#/components/schemas/GradeTemplate'
-      type: object
-      properties:
         student_id:
           type: string
         exam_id:
@@ -1343,26 +1368,16 @@ components:
         student_firstname:
           type: string
           
-    ExamTemplate:
+    Exam:
       type: object
       properties:
         id:
           type: string
+        details:
+          type: string
         examination_date:
           type: string
           format: date-time
-    Exam:
-      allOf:
-        - $ref: '#/components/schemas/ExamTemplate'
-      type: object
-      properties:
-        course:
-          $ref: '#/components/schemas/Course'
-    CrupdateExam:
-      allOf:
-        - $ref: '#/components/schemas/ExamTemplate'
-      type: object
-      properties:
         course_id:
           type: string
 
